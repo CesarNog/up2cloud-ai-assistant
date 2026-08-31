@@ -438,40 +438,128 @@ class SecurityScanner:
         "backup_strategy": "Critical data must have backup strategy defined",
         "network_isolation": "Resources must be in isolated VPCs/subnets"
     }
+
+    CONTROL_WEIGHTS = {
+        "encryption_at_rest": 35,
+        "mfa": 40,
+        "security_groups": 25,
+    }
     
     @staticmethod
     def scan_infrastructure(infrastructure: Dict[str, Any]) -> Dict[str, Any]:
-        """Scan infrastructure for security issues."""
+        """Assess the three controls provided by the lightweight web profile."""
         findings = {
             "passed": [],
             "failed": [],
             "warnings": [],
-            "score": 0
+            "checks": [],
         }
-        
-        # Check encryption
+
         if infrastructure.get("encryption_enabled"):
             findings["passed"].append("✅ Encryption at rest enabled")
+            findings["checks"].append({
+                "id": "encryption_at_rest",
+                "title": "Encryption at rest",
+                "status": "pass",
+                "severity": "informational",
+                "finding": "Data stores and snapshots are reported as encrypted at rest.",
+                "recommendation": "Verify coverage, customer-managed key ownership, rotation, and backup encryption.",
+            })
         else:
             findings["failed"].append("❌ Encryption at rest NOT enabled")
-        
-        # Check security groups
+            findings["checks"].append({
+                "id": "encryption_at_rest",
+                "title": "Encryption at rest",
+                "status": "fail",
+                "severity": "high",
+                "finding": "Encryption at rest was not confirmed for data stores and snapshots.",
+                "recommendation": "Enable service-native encryption with managed keys, then migrate or rotate unencrypted resources.",
+            })
+
         if infrastructure.get("restrict_security_groups"):
             findings["passed"].append("✅ Security groups properly restricted")
+            findings["checks"].append({
+                "id": "security_groups",
+                "title": "Security group exposure",
+                "status": "pass",
+                "severity": "informational",
+                "finding": "Inbound and outbound rules are reported as restricted.",
+                "recommendation": "Continuously detect public CIDRs, unused rules, and unexpected reachability.",
+            })
         else:
             findings["warnings"].append("⚠️ Security groups may be too permissive")
-        
-        # Check MFA
+            findings["checks"].append({
+                "id": "security_groups",
+                "title": "Security group exposure",
+                "status": "warning",
+                "severity": "high",
+                "finding": "Restricted security group rules were not confirmed, increasing unintended network exposure risk.",
+                "recommendation": "Remove broad public access, allow only required ports and sources, and enable flow-log monitoring.",
+            })
+
         if infrastructure.get("mfa_enabled"):
             findings["passed"].append("✅ MFA enabled for admin access")
+            findings["checks"].append({
+                "id": "mfa",
+                "title": "Administrative MFA",
+                "status": "pass",
+                "severity": "informational",
+                "finding": "Administrative access is reported as protected by multi-factor authentication.",
+                "recommendation": "Prefer phishing-resistant MFA and enforce it through the central identity provider.",
+            })
         else:
             findings["failed"].append("❌ MFA NOT enabled (critical!)")
-        
-        # Calculate score
-        total_checks = len(SecurityScanner.RULES)
-        passed_count = len(findings["passed"])
-        findings["score"] = (passed_count / total_checks) * 100
-        
+            findings["checks"].append({
+                "id": "mfa",
+                "title": "Administrative MFA",
+                "status": "fail",
+                "severity": "critical",
+                "finding": "Multi-factor authentication was not confirmed for administrative access.",
+                "recommendation": "Enforce MFA for privileged users immediately, centralize access with SSO, and secure emergency accounts.",
+            })
+
+        penalty = sum(
+            SecurityScanner.CONTROL_WEIGHTS[check["id"]]
+            for check in findings["checks"]
+            if check["status"] != "pass"
+        )
+        score = max(0, 100 - penalty)
+        if score >= 85:
+            risk_level = "Low"
+        elif score >= 65:
+            risk_level = "Moderate"
+        elif score >= 40:
+            risk_level = "High"
+        else:
+            risk_level = "Critical"
+
+        priority_count = sum(check["status"] != "pass" for check in findings["checks"])
+        if priority_count:
+            verb = "requires" if priority_count == 1 else "require"
+            summary = (
+                f"{priority_count} priority security gap{'s' if priority_count != 1 else ''} "
+                f"{verb} action before this baseline should be considered production-ready."
+            )
+        else:
+            summary = (
+                "All three baseline controls are reported as enabled. Verify their implementation "
+                "and broaden the review before treating the environment as production-ready."
+            )
+
+        findings.update({
+            "score": score,
+            "risk_level": risk_level,
+            "summary": summary,
+            "evaluated_checks": len(findings["checks"]),
+            "passed_checks": len(findings["passed"]),
+            "priority_actions": priority_count,
+            "scope": (
+                "Self-reported baseline of three controls. No cloud account, policy, logs, "
+                "or resource configuration was inspected."
+            ),
+            "guidance_basis": "Cloud security fundamentals aligned with least-privilege and defense-in-depth practices.",
+        })
+
         return findings
 
 

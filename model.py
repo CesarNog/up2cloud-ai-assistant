@@ -129,6 +129,11 @@ Guidelines:
     
     # Simulate response generation
     response = generate_response(system_prompt, messages)
+
+    security_findings = None
+    if features and features.get("security_scan") and context:
+        security_findings = SecurityScanner.scan_infrastructure(context)
+        response = security_findings["summary"]
     
     # Store response in memory
     predict.memory.add_message("assistant", response)
@@ -159,8 +164,7 @@ Guidelines:
             diagram = ArchitectureDiagrammer.generate_diagram(diagram_type)
             result["architecture_diagram"] = diagram
         
-        if features.get("security_scan") and context:
-            security_findings = SecurityScanner.scan_infrastructure(context)
+        if security_findings is not None:
             result["security_audit"] = security_findings
         
         if features.get("slack_format"):
@@ -194,7 +198,9 @@ def generate_response(system_prompt: str, messages: list) -> str:
     user_question = messages[-1]["content"]
     
     # Simulate intelligent routing based on question type
-    if any(keyword in user_question.lower() for keyword in ["cost", "finops", "optimize", "savings"]):
+    if any(keyword in user_question.lower() for keyword in ["security", "secure", "audit", "mfa", "encryption", "iam"]):
+        category = "Cloud Security"
+    elif any(keyword in user_question.lower() for keyword in ["cost", "finops", "optimize", "savings"]):
         category = "FinOps"
     elif any(keyword in user_question.lower() for keyword in ["kubernetes", "container", "docker", "k8s"]):
         category = "Kubernetes & Containers"
