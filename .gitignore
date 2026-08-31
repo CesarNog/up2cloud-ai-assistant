@@ -11,3 +11,5 @@ dist/
 ENV/
 *.egg-info/
 .streamlit/
+.pytest_cache/
+*.log
