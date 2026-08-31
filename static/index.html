@@ -368,6 +368,97 @@
     .estimate-cta span { display: block; margin-top: 3px; color: var(--muted); font-size: .74rem; }
     .estimate-cta a { flex: 0 0 auto; min-height: 42px; display: inline-flex; align-items: center; padding: 0 14px; border-radius: 10px; color: white; background: var(--blue-strong); font-size: .78rem; font-weight: 800; text-decoration: none; transition: transform .2s ease, filter .2s ease; }
     .estimate-cta a:hover { transform: translateY(-2px); filter: brightness(1.1); }
+    .security-profile { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; }
+    .security-control {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      min-height: 112px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: rgba(7,20,33,.56);
+      cursor: pointer;
+      transition: border-color .2s ease, background .2s ease, transform .2s ease;
+    }
+    .security-control:hover { transform: translateY(-2px); border-color: rgba(77,159,255,.4); background: rgba(77,159,255,.07); }
+    .security-control:has(input:checked) { border-color: rgba(67,212,158,.42); background: rgba(67,212,158,.07); }
+    .security-control input { flex: 0 0 auto; width: 19px; height: 19px; margin: 2px 0 0; accent-color: var(--success); }
+    .security-control-copy { display: grid; gap: 6px; }
+    .security-control-copy strong { color: white; font-family: var(--heading); font-size: .9rem; }
+    .security-control-copy span { color: var(--muted); font-size: .76rem; font-weight: 500; line-height: 1.45; }
+    .security-result {
+      display: none;
+      margin-top: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(77,159,255,.2);
+      border-radius: 18px;
+      background: linear-gradient(145deg, rgba(7,20,33,.98), rgba(13,27,45,.96));
+      box-shadow: 0 20px 50px rgba(0,0,0,.2);
+    }
+    .security-result.visible { display: block; }
+    .security-result .result-state { min-height: 74px; display: flex; align-items: center; }
+    .assessment-hero {
+      display: grid;
+      grid-template-columns: auto minmax(0,1fr);
+      align-items: center;
+      gap: clamp(20px,4vw,34px);
+      padding: clamp(22px,4vw,32px);
+      border-bottom: 1px solid var(--line);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(77,159,255,.14), transparent 44%),
+        radial-gradient(circle at 100% 100%, rgba(139,92,246,.1), transparent 50%);
+    }
+    .security-score {
+      --risk-color: var(--danger);
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: 126px;
+      height: 126px;
+      border-radius: 50%;
+      background: conic-gradient(var(--risk-color) calc(var(--score) * 1%), rgba(255,255,255,.08) 0);
+      box-shadow: 0 16px 38px rgba(0,0,0,.2);
+    }
+    .security-score::before { content: ""; position: absolute; inset: 10px; border-radius: 50%; background: #091625; }
+    .security-score-value { position: relative; display: grid; place-items: center; font-family: var(--heading); font-size: 2rem; font-weight: 700; line-height: 1; }
+    .security-score-value span { margin-top: 5px; color: var(--muted); font-family: "DM Sans", sans-serif; font-size: .66rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+    .security-score.low { --risk-color: var(--success); }
+    .security-score.moderate { --risk-color: #fbbf24; }
+    .security-score.high { --risk-color: var(--orange); }
+    .assessment-copy { min-width: 0; }
+    .assessment-heading { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 9px; }
+    .assessment-heading h3 { margin: 0; font-size: clamp(1.25rem,3vw,1.7rem); }
+    .risk-badge { display: inline-flex; align-items: center; min-height: 27px; padding: 4px 9px; border: 1px solid currentColor; border-radius: 999px; font-size: .68rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+    .risk-badge.low { color: #85e7c1; background: rgba(67,212,158,.08); }
+    .risk-badge.moderate { color: #fde68a; background: rgba(251,191,36,.08); }
+    .risk-badge.high { color: #fdba74; background: rgba(249,115,22,.08); }
+    .risk-badge.critical { color: #fda4af; background: rgba(251,113,133,.08); }
+    .assessment-summary { max-width: 720px; margin: 0; color: #c5d5e8; line-height: 1.6; }
+    .assessment-metrics { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 17px; }
+    .assessment-metric { min-width: 120px; padding: 9px 12px; border: 1px solid var(--line); border-radius: 11px; background: rgba(7,20,33,.5); }
+    .assessment-metric strong { display: block; font-family: var(--heading); font-size: 1rem; }
+    .assessment-metric span { color: var(--muted); font-size: .69rem; }
+    .assessment-body { padding: clamp(20px,4vw,30px); }
+    .assessment-section-heading { margin: 0 0 14px; font-size: 1.05rem; }
+    .assessment-checks { display: grid; gap: 11px; }
+    .assessment-check { display: grid; grid-template-columns: auto minmax(0,1fr); gap: 12px; padding: 15px; border: 1px solid var(--line); border-radius: 14px; background: rgba(7,20,33,.48); }
+    .assessment-check-icon { display: grid; place-items: center; width: 30px; height: 30px; border-radius: 9px; font-size: .78rem; font-weight: 900; }
+    .assessment-check.pass .assessment-check-icon { color: #85e7c1; background: rgba(67,212,158,.12); }
+    .assessment-check.warning .assessment-check-icon { color: #fdba74; background: rgba(249,115,22,.12); }
+    .assessment-check.fail .assessment-check-icon { color: #fda4af; background: rgba(251,113,133,.12); }
+    .assessment-check-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+    .assessment-check-header strong { color: white; font-family: var(--heading); font-size: .9rem; }
+    .severity { color: var(--muted); font-size: .67rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+    .assessment-finding { margin: 6px 0 0; color: #c5d5e8; font-size: .8rem; line-height: 1.5; }
+    .assessment-action { margin: 9px 0 0; color: var(--muted); font-size: .76rem; line-height: 1.5; }
+    .assessment-action strong { color: #b9d8ff; }
+    .assessment-scope { margin: 18px 0 0; padding: 13px 14px; border-left: 3px solid var(--blue); border-radius: 0 10px 10px 0; color: var(--muted); background: rgba(77,159,255,.05); font-size: .76rem; line-height: 1.55; }
+    .assessment-cta { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 17px clamp(20px,4vw,30px); border-top: 1px solid var(--line); background: rgba(77,159,255,.045); }
+    .assessment-cta strong { display: block; font-family: var(--heading); font-size: .88rem; }
+    .assessment-cta span { display: block; margin-top: 3px; color: var(--muted); font-size: .74rem; }
+    .assessment-cta a { flex: 0 0 auto; min-height: 42px; display: inline-flex; align-items: center; padding: 0 14px; border-radius: 10px; color: white; background: var(--blue-strong); font-size: .78rem; font-weight: 800; text-decoration: none; transition: transform .2s ease, filter .2s ease; }
+    .assessment-cta a:hover { transform: translateY(-2px); filter: brightness(1.1); }
     @keyframes spin { to { transform: rotate(360deg); } }
     footer { display: flex; justify-content: space-between; gap: 20px; padding: 0 0 42px; color: var(--muted); font-size: .9rem; }
     footer a { color: var(--blue); text-decoration: none; }
@@ -379,9 +470,11 @@
       .tab { flex: 0; }
       footer { flex-direction: column; }
       .cost-form-grid, .estimate-hero { grid-template-columns: 1fr; }
+      .security-profile, .assessment-hero { grid-template-columns: 1fr; }
+      .security-score { width: 112px; height: 112px; }
       .field-pair { grid-template-columns: 1fr; }
-      .estimate-cta { align-items: flex-start; flex-direction: column; }
-      .estimate-cta a { width: 100%; justify-content: center; }
+      .estimate-cta, .assessment-cta { align-items: flex-start; flex-direction: column; }
+      .estimate-cta a, .assessment-cta a { width: 100%; justify-content: center; }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
@@ -513,16 +606,21 @@
 
         <section class="panel" id="security" role="tabpanel" aria-labelledby="tab-security" hidden>
           <h2>Security assessment</h2>
-          <p class="intro">Run the existing configuration checks against a small infrastructure profile.</p>
+          <p class="intro">Get an immediate risk baseline and prioritized actions from three foundational cloud controls.</p>
+          <div class="cost-context" aria-label="Assessment scope">
+            <span class="context-chip">Self-reported baseline</span>
+            <span class="context-chip">3 foundational controls</span>
+            <span class="context-chip">No account access</span>
+          </div>
           <form data-endpoint="/api/predict" data-output="security-output" data-feature="security_scan">
             <input type="hidden" name="prompt" value="Perform security audit">
-            <div class="checks">
-              <label class="check"><input name="encryption_enabled" type="checkbox">Encryption at rest enabled</label>
-              <label class="check"><input name="mfa_enabled" type="checkbox">MFA enabled</label>
-              <label class="check"><input name="restrict_security_groups" type="checkbox">Security groups restricted</label>
+            <div class="security-profile">
+              <label class="security-control"><input name="encryption_enabled" type="checkbox"><span class="security-control-copy"><strong>Encryption at rest</strong><span>Data stores, volumes, snapshots, and backups are encrypted.</span></span></label>
+              <label class="security-control"><input name="mfa_enabled" type="checkbox"><span class="security-control-copy"><strong>Administrative MFA</strong><span>Privileged and emergency access requires multi-factor authentication.</span></span></label>
+              <label class="security-control"><input name="restrict_security_groups" type="checkbox"><span class="security-control-copy"><strong>Restricted security groups</strong><span>Rules allow only required ports and trusted network sources.</span></span></label>
             </div>
-            <button class="primary" type="submit">Run assessment</button>
-            <pre class="output" id="security-output" aria-live="polite"></pre>
+            <button class="primary" type="submit">Generate security report</button>
+            <section class="security-result" id="security-output" aria-live="polite" aria-atomic="true"></section>
           </form>
         </section>
       </section>
@@ -641,6 +739,115 @@
       output.replaceChildren();
       output.className = `cost-result visible`;
       output.append(makeElement('div', `result-state ${type}`, message));
+    }
+
+    function renderSecurityState(output, message, type) {
+      output.replaceChildren();
+      output.className = 'security-result visible';
+      output.append(makeElement('div', `result-state ${type}`, message));
+    }
+
+    function renderSecurityAssessment(output, audit) {
+      if (!audit || typeof audit !== 'object') throw new Error('The assessment returned no security findings');
+
+      const rawScore = Number(audit.score);
+      if (!Number.isFinite(rawScore)) throw new Error('The assessment returned an invalid security score');
+      const score = Math.max(0, Math.min(100, Math.round(rawScore)));
+      const checks = Array.isArray(audit.checks) ? audit.checks : [];
+      if (!checks.length) throw new Error('The assessment returned no evaluated controls');
+
+      const allowedRiskLevels = ['Low', 'Moderate', 'High', 'Critical'];
+      const riskLevel = allowedRiskLevels.includes(audit.risk_level) ? audit.risk_level : 'Critical';
+      const riskClass = riskLevel.toLowerCase();
+      const passedCount = checks.filter((check) => check.status === 'pass').length;
+      const priorityCount = checks.length - passedCount;
+
+      output.replaceChildren();
+      output.className = 'security-result visible';
+
+      const hero = makeElement('div', 'assessment-hero');
+      const scoreRing = makeElement('div', `security-score ${riskClass}`);
+      scoreRing.style.setProperty('--score', String(score));
+      scoreRing.setAttribute('role', 'progressbar');
+      scoreRing.setAttribute('aria-label', `Security baseline score: ${score} out of 100`);
+      scoreRing.setAttribute('aria-valuemin', '0');
+      scoreRing.setAttribute('aria-valuemax', '100');
+      scoreRing.setAttribute('aria-valuenow', String(score));
+      const scoreValue = makeElement('strong', 'security-score-value', String(score));
+      scoreValue.append(makeElement('span', '', 'out of 100'));
+      scoreRing.append(scoreValue);
+
+      const copy = makeElement('div', 'assessment-copy');
+      const heading = makeElement('div', 'assessment-heading');
+      heading.append(
+        makeElement('h3', '', 'Security baseline report'),
+        makeElement('span', `risk-badge ${riskClass}`, `${riskLevel} risk`)
+      );
+      const summary = makeElement(
+        'p',
+        'assessment-summary',
+        String(audit.summary || 'Review the evaluated controls and recommended actions below.')
+      );
+      const metrics = makeElement('div', 'assessment-metrics');
+      [
+        [String(passedCount), 'Controls reported enabled'],
+        [String(priorityCount), 'Priority actions'],
+        [String(checks.length), 'Controls evaluated']
+      ].forEach(([value, label]) => {
+        const metric = makeElement('div', 'assessment-metric');
+        metric.append(makeElement('strong', '', value), makeElement('span', '', label));
+        metrics.append(metric);
+      });
+      copy.append(heading, summary, metrics);
+      hero.append(scoreRing, copy);
+
+      const body = makeElement('div', 'assessment-body');
+      body.append(makeElement('h3', 'assessment-section-heading', 'Control findings and next actions'));
+      const checkList = makeElement('div', 'assessment-checks');
+      checks.forEach((check) => {
+        const status = ['pass', 'warning', 'fail'].includes(check.status) ? check.status : 'warning';
+        const card = makeElement('article', `assessment-check ${status}`);
+        const icon = makeElement('span', 'assessment-check-icon', status === 'pass' ? '✓' : status === 'fail' ? '×' : '!');
+        icon.setAttribute('aria-hidden', 'true');
+        const checkCopy = makeElement('div', '');
+        const checkHeader = makeElement('div', 'assessment-check-header');
+        const severity = status === 'pass'
+          ? 'Control enabled'
+          : `${String(check.severity || 'review')} priority`;
+        checkHeader.append(
+          makeElement('strong', '', String(check.title || 'Security control')),
+          makeElement('span', 'severity', severity)
+        );
+        const finding = makeElement('p', 'assessment-finding', String(check.finding || 'Review this control.'));
+        const action = makeElement('p', 'assessment-action');
+        action.append(
+          makeElement('strong', '', status === 'pass' ? 'Validate continuously: ' : 'Recommended action: '),
+          String(check.recommendation || 'Validate the implementation with a cloud security specialist.')
+        );
+        checkCopy.append(checkHeader, finding, action);
+        card.append(icon, checkCopy);
+        checkList.append(card);
+      });
+      const scope = makeElement(
+        'p',
+        'assessment-scope',
+        String(audit.scope || 'This baseline is informational and does not replace a configuration-level cloud security audit.')
+      );
+      body.append(checkList, scope);
+
+      const cta = makeElement('div', 'assessment-cta');
+      const ctaCopy = makeElement('div', '');
+      ctaCopy.append(
+        makeElement('strong', '', 'Need evidence-backed cloud security assurance?'),
+        makeElement('span', '', 'Turn this baseline into a configuration review, remediation plan, and delivery roadmap.')
+      );
+      const ctaLink = makeElement('a', '', 'Talk to a security specialist');
+      ctaLink.href = 'https://up2cloud.tech/#contact';
+      ctaLink.target = '_blank';
+      ctaLink.rel = 'noopener noreferrer';
+      cta.append(ctaCopy, ctaLink);
+
+      output.append(hero, body, cta);
     }
 
     function renderCostEstimate(output, result) {
@@ -773,6 +980,7 @@
         const button = form.querySelector('button[type="submit"]');
         const output = document.getElementById(form.dataset.output);
         const isCostEstimate = form.dataset.endpoint === '/api/cost';
+        const isSecurityAssessment = form.dataset.feature === 'security_scan';
         const payload = payloadFor(form);
 
         if (isCostEstimate && !Object.keys(payload.infrastructure).length) {
@@ -786,6 +994,8 @@
         output.setAttribute('aria-busy', 'true');
         if (isCostEstimate) {
           renderResultState(output, 'Calculating your monthly cloud baseline…', 'loading');
+        } else if (isSecurityAssessment) {
+          renderSecurityState(output, 'Evaluating controls and preparing prioritized actions…', 'loading');
         } else {
           output.classList.add('visible');
           output.textContent = 'Working…';
@@ -800,6 +1010,8 @@
           if (!response.ok) throw new Error(result.detail || 'Request failed');
           if (isCostEstimate) {
             renderCostEstimate(output, result);
+          } else if (isSecurityAssessment) {
+            renderSecurityAssessment(output, result.security_audit);
           } else {
             output.textContent = result.terraform_code || result.architecture_diagram || result.response || JSON.stringify(result, null, 2);
           }
@@ -809,6 +1021,8 @@
             : error.message;
           if (isCostEstimate) {
             renderResultState(output, `Unable to calculate the estimate: ${message}`, 'error');
+          } else if (isSecurityAssessment) {
+            renderSecurityState(output, `Unable to generate the security report: ${message}`, 'error');
           } else {
             output.textContent = `Unable to complete the request: ${message}`;
           }
