@@ -1,34 +1,3 @@
-"""
-Requirements for UP2CLOUD model deployment on Baseten and Streamlit Cloud.
-"""
-
-# Core dependencies
-anthropic>=0.7.0          # Claude API for LLM inference
-python-dotenv>=1.0.0     # Environment variable management
-
-# Web frameworks
-fastapi>=0.104.0         # Modern async web framework
-uvicorn>=0.24.0          # ASGI server
-streamlit>=1.28.0        # Streamlit web framework for demos
-
-# UI components
-gradio>=4.0.0            # Gradio for Hugging Face deployment
-
-# Cloud integrations
-boto3>=1.29.0            # AWS SDK (for infrastructure queries/validation)
-google-cloud-compute>=1.14.0  # Google Cloud integration
-azure-common>=1.1.0      # Azure integration
-
-# Infrastructure as Code tools (documentation/CLI)
-terraform-util>=0.1.0    # Terraform utilities
-kubernetes>=28.0.0       # Kubernetes Python client
-
-# Monitoring and observability
-opentelemetry-api>=1.20.0
-opentelemetry-sdk>=1.20.0
-prometheus-client>=0.19.0
-
-# Utilities
-requests>=2.31.0         # HTTP client
-pydantic>=2.0.0          # Data validation
-pydantic-settings>=2.0.0 # Settings management
+# Runtime dependencies for Streamlit Community Cloud.
+streamlit>=1.28.0,<2.0.0
+PyYAML>=6.0.2,<7.0.0

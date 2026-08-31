@@ -5,8 +5,7 @@ Deployed to Streamlit Cloud for free public access
 
 import streamlit as st
 from model import predict
-from enhanced_features import CostEstimator, SecurityScanner
-import json
+from enhanced_features import CostEstimator
 
 # Page config
 st.set_page_config(

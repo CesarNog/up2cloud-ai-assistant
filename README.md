@@ -61,8 +61,8 @@ baseten/
 # Install dependencies
 pip install -r requirements.txt
 
-# Set Baseten API key
-export BASETEN_API_KEY="czrVhIYe.BOIiYx2wopD1DAKc5LTIalcLZ7yRHSF5"
+# Set your own Baseten API key (never commit the real value)
+export BASETEN_API_KEY="YOUR_BASETEN_API_KEY"
 ```
 
 ### 2. Test Locally
