@@ -5,13 +5,67 @@ Now with enhanced features: cost estimation, code generation, architecture diagr
 Slack/Teams integration, document processing, and multi-turn conversation memory.
 """
 
-import os
+import re
+import threading
+import time
+import uuid
 from typing import Optional, Dict, Any
+
+from advisory import build_advisory_response
 from enhanced_features import (
     CostEstimator, CodeGenerator, ArchitectureDiagrammer, 
-    ConversationMemory, SecurityScanner
+    SecurityScanner
 )
 from integrations import SlackIntegration, TeamsIntegration, DocumentUploadHandler
+
+
+class SessionStore:
+    """Bounded, isolated in-process conversation history for the public demo."""
+
+    def __init__(self, ttl_seconds: int = 3600, max_sessions: int = 500, max_messages: int = 12):
+        self.ttl_seconds = ttl_seconds
+        self.max_sessions = max_sessions
+        self.max_messages = max_messages
+        self._sessions: dict[str, dict[str, Any]] = {}
+        self._lock = threading.Lock()
+
+    def resolve(self, requested_session_id: str | None = None) -> str:
+        if requested_session_id and re.fullmatch(r"[A-Za-z0-9_-]{8,80}", requested_session_id):
+            return requested_session_id
+        return uuid.uuid4().hex
+
+    def history(self, session_id: str) -> list[dict[str, Any]]:
+        now = time.monotonic()
+        with self._lock:
+            self._prune(now)
+            session = self._sessions.setdefault(session_id, {"updated_at": now, "messages": []})
+            session["updated_at"] = now
+            return list(session["messages"])
+
+    def add(self, session_id: str, role: str, content: str, context: dict | None = None) -> None:
+        now = time.monotonic()
+        with self._lock:
+            self._prune(now)
+            session = self._sessions.setdefault(session_id, {"updated_at": now, "messages": []})
+            session["updated_at"] = now
+            session["messages"].append({"role": role, "content": content, "context": context})
+            session["messages"] = session["messages"][-self.max_messages:]
+
+            if len(self._sessions) > self.max_sessions:
+                oldest = min(self._sessions, key=lambda key: self._sessions[key]["updated_at"])
+                self._sessions.pop(oldest, None)
+
+    def _prune(self, now: float) -> None:
+        expired = [
+            key
+            for key, value in self._sessions.items()
+            if now - value["updated_at"] > self.ttl_seconds
+        ]
+        for key in expired:
+            self._sessions.pop(key, None)
+
+
+SESSION_STORE = SessionStore()
 
 
 def init():
@@ -35,7 +89,12 @@ def init():
     }
 
 
-def predict(prompt: str, context: Optional[dict] = None, features: Optional[dict] = None) -> dict:
+def predict(
+    prompt: str,
+    context: Optional[dict] = None,
+    features: Optional[dict] = None,
+    session_id: Optional[str] = None,
+) -> dict:
     """
     Main inference endpoint for the UP2CLOUD AI assistant.
     Now supports enhanced features: cost estimation, code generation, diagrams, security scanning, etc.
@@ -56,97 +115,29 @@ def predict(prompt: str, context: Optional[dict] = None, features: Optional[dict
         dict with assistant response and metadata
     """
     
-    # Initialize conversation memory if not exists
-    if not hasattr(predict, 'memory'):
-        predict.memory = ConversationMemory()
-    
-    system_prompt = """You are UP2CLOUD's AI Cloud Engineering Assistant, an expert in:
-- Cloud Architecture (AWS, GCP, Azure)
-- Platform Engineering & DevOps
-- Kubernetes & Container Orchestration
-- Infrastructure as Code (Terraform, CloudFormation, Pulumi)
-- FinOps & Cost Optimization
-- AI-powered Operations & MLOps
-- Security & Compliance
-- Microservices & Distributed Systems
-
-Your role:
-1. Answer technical questions about cloud infrastructure and engineering
-2. Help users understand UP2CLOUD's services and expertise
-3. Provide guidance on selecting appropriate cloud solutions
-4. Assist with best practices in DevOps, platform engineering, and FinOps
-5. Help potential clients identify suitable cloud solutions for their needs
-6. Generate code, diagrams, and cost estimates when requested
-7. Scan infrastructure for security issues
-8. Remember conversation context across multiple turns
-
-Guidelines:
-- Be technical but accessible; explain complex concepts clearly
-- Provide practical, actionable recommendations
-- Consider cost, scalability, security, and maintainability
-- Reference industry best practices and standards
-- When appropriate, suggest when UP2CLOUD's expertise would be valuable
-- Be honest about trade-offs and limitations
-- Ask clarifying questions if needed to provide better guidance
-- Remember previous questions in the conversation"""
-
-    # Build the conversation context
-    messages = []
-    
-    # Add recent conversation history
-    recent_context = predict.memory.get_recent_context(num_messages=3)
-    for msg in recent_context:
-        messages.append({
-            "role": msg["role"],
-            "content": msg["content"]
-        })
-    
-    if context:
-        if context.get("company_type"):
-            messages.append({
-                "role": "user",
-                "content": f"Context: We're a {context['company_type']} company."
-            })
-        if context.get("current_infrastructure"):
-            messages.append({
-                "role": "user", 
-                "content": f"Current infrastructure: {context['current_infrastructure']}"
-            })
-        if context.get("challenges"):
-            messages.append({
-                "role": "user",
-                "content": f"Main challenges: {context['challenges']}"
-            })
-    
-    # Add the actual user prompt
-    messages.append({
-        "role": "user",
-        "content": prompt
-    })
-    
-    # Add to memory
-    predict.memory.add_message("user", prompt, context)
-    
-    # Simulate response generation
-    response = generate_response(system_prompt, messages)
+    resolved_session_id = SESSION_STORE.resolve(session_id)
+    history = SESSION_STORE.history(resolved_session_id)
+    advisory = build_advisory_response(prompt, context, history)
+    response = advisory["answer_markdown"]
+    SESSION_STORE.add(resolved_session_id, "user", prompt, context)
 
     security_findings = None
     if features and features.get("security_scan") and context:
         security_findings = SecurityScanner.scan_infrastructure(context)
         response = security_findings["summary"]
     
-    # Store response in memory
-    predict.memory.add_message("assistant", response)
+    SESSION_STORE.add(resolved_session_id, "assistant", response)
     
     result = {
         "response": response,
-        "model": "up2cloud-engineering-assistant-premium",
+        "model": "up2cloud-structured-advisor-v1",
+        "advisory": advisory,
         "usage": {
             "input_tokens": len(prompt.split()),
             "output_tokens": len(response.split()) if response else 0,
         },
-        "session_id": predict.memory.session_id,
-        "turn_number": len(predict.memory.conversation_history)
+        "session_id": resolved_session_id,
+        "turn_number": len(SESSION_STORE.history(resolved_session_id)),
     }
     
     # Process optional features
@@ -156,13 +147,15 @@ Guidelines:
             result["cost_estimate"] = cost_estimate
         
         if features.get("generate_code"):
-            terraform = CodeGenerator.generate_terraform(context or {})
-            result["terraform_code"] = terraform
+            terraform_bundle = CodeGenerator.generate_terraform_bundle(prompt, context or {})
+            result["terraform"] = terraform_bundle
+            result["terraform_code"] = terraform_bundle["combined_code"]
         
         if features.get("architecture_diagram"):
             diagram_type = features.get("diagram_type", "microservices")
-            diagram = ArchitectureDiagrammer.generate_diagram(diagram_type)
-            result["architecture_diagram"] = diagram
+            architecture = ArchitectureDiagrammer.generate_architecture(diagram_type)
+            result["architecture"] = architecture
+            result["architecture_diagram"] = architecture["diagram"]
         
         if security_findings is not None:
             result["security_audit"] = security_findings
@@ -188,32 +181,10 @@ Guidelines:
 
 def generate_response(system_prompt: str, messages: list) -> str:
     """
-    Generate response using the configured LLM.
-    In production, integrate with Anthropic's Claude API or similar.
+    Generate a structured, deterministic advisory response.
     """
-    # This is a placeholder implementation
-    # In production, use: anthropic.Anthropic() or openai.OpenAI()
-    
-    # For now, return a structured response template
     user_question = messages[-1]["content"]
-    
-    # Simulate intelligent routing based on question type
-    if any(keyword in user_question.lower() for keyword in ["security", "secure", "audit", "mfa", "encryption", "iam"]):
-        category = "Cloud Security"
-    elif any(keyword in user_question.lower() for keyword in ["cost", "finops", "optimize", "savings"]):
-        category = "FinOps"
-    elif any(keyword in user_question.lower() for keyword in ["kubernetes", "container", "docker", "k8s"]):
-        category = "Kubernetes & Containers"
-    elif any(keyword in user_question.lower() for keyword in ["terraform", "infrastructure", "iac", "cloudformation"]):
-        category = "Infrastructure as Code"
-    elif any(keyword in user_question.lower() for keyword in ["aws", "gcp", "azure", "cloud architecture"]):
-        category = "Cloud Architecture"
-    elif any(keyword in user_question.lower() for keyword in ["devops", "ci/cd", "deployment", "pipeline"]):
-        category = "DevOps & CI/CD"
-    else:
-        category = "General Cloud Engineering"
-    
-    return f"[{category}] Response generated for: {user_question[:100]}..."
+    return build_advisory_response(user_question, history=messages[:-1])["answer_markdown"]
 
 
 if __name__ == "__main__":

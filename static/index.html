@@ -39,6 +39,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -459,6 +460,87 @@
     .assessment-cta span { display: block; margin-top: 3px; color: var(--muted); font-size: .74rem; }
     .assessment-cta a { flex: 0 0 auto; min-height: 42px; display: inline-flex; align-items: center; padding: 0 14px; border-radius: 10px; color: white; background: var(--blue-strong); font-size: .78rem; font-weight: 800; text-decoration: none; transition: transform .2s ease, filter .2s ease; }
     .assessment-cta a:hover { transform: translateY(-2px); filter: brightness(1.1); }
+    .header-actions { display: flex; align-items: center; gap: 16px; }
+    .header-cta { display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px; border: 1px solid rgba(77,159,255,.34); border-radius: 10px; color: white; background: rgba(77,159,255,.08); font-size: .78rem; font-weight: 800; text-decoration: none; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 25px; }
+    .hero-actions a { display: inline-flex; align-items: center; min-height: 46px; padding: 0 17px; border-radius: 11px; font-size: .82rem; font-weight: 800; text-decoration: none; }
+    .hero-actions .primary-link { color: white; background: linear-gradient(135deg,var(--blue),var(--blue-strong)); box-shadow: 0 14px 34px rgba(37,99,235,.22); }
+    .hero-actions .secondary-link { color: #cfdded; border: 1px solid var(--line); background: rgba(255,255,255,.035); }
+    .trust-rail { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 10px; margin: 0 0 34px; }
+    .trust-item { min-height: 82px; padding: 14px; border: 1px solid var(--line); border-radius: 14px; background: rgba(13,27,45,.58); }
+    .trust-item strong { display: block; color: white; font-family: var(--heading); font-size: .84rem; }
+    .trust-item span { display: block; margin-top: 5px; color: var(--muted); font-size: .72rem; line-height: 1.45; }
+    .result-card { display: none; margin-top: 24px; overflow: hidden; border: 1px solid rgba(77,159,255,.2); border-radius: 18px; background: linear-gradient(145deg,rgba(7,20,33,.98),rgba(13,27,45,.96)); box-shadow: 0 20px 50px rgba(0,0,0,.2); }
+    .result-card.visible { display: block; }
+    .result-card .result-state { min-height: 74px; display: flex; align-items: center; }
+    .result-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding: 11px 16px; border-bottom: 1px solid var(--line); background: rgba(255,255,255,.025); }
+    .result-label { color: var(--muted); font-size: .7rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .toolbar-actions { display: flex; flex-wrap: wrap; gap: 7px; }
+    .tool-button { min-height: 38px; padding: 8px 11px; border: 1px solid var(--line); border-radius: 9px; color: #cfdded; background: rgba(255,255,255,.035); font: inherit; font-size: .72rem; font-weight: 750; cursor: pointer; transition: color .2s ease,border-color .2s ease,background .2s ease; }
+    .tool-button:hover { color: white; border-color: rgba(77,159,255,.44); background: rgba(77,159,255,.08); }
+    .advisory-hero { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 20px; padding: clamp(20px,4vw,30px); border-bottom: 1px solid var(--line); background: radial-gradient(circle at 0 0,rgba(77,159,255,.13),transparent 46%); }
+    .advisory-hero h3 { margin: 7px 0 9px; font-size: clamp(1.25rem,3vw,1.72rem); }
+    .advisory-hero p { margin: 0; max-width: 760px; color: #c5d5e8; line-height: 1.6; }
+    .confidence-card { align-self: start; min-width: 120px; padding: 13px; border: 1px solid var(--line); border-radius: 13px; background: rgba(7,20,33,.54); text-align: center; }
+    .confidence-card strong { display: block; font-family: var(--heading); font-size: 1.35rem; }
+    .confidence-card span { color: var(--muted); font-size: .68rem; }
+    .result-body { padding: clamp(20px,4vw,30px); }
+    .markdown-content { color: #d7e6f7; line-height: 1.7; }
+    .markdown-content h2 { margin: 24px 0 9px; font-size: 1.08rem; }
+    .markdown-content h2:first-child { margin-top: 0; }
+    .markdown-content p { margin: 0 0 12px; }
+    .markdown-content ul,.markdown-content ol { margin: 8px 0 18px; padding-left: 22px; }
+    .markdown-content li { margin: 7px 0; }
+    .markdown-content code { padding: 2px 5px; border-radius: 5px; color: #c5e7ff; background: rgba(56,189,248,.1); }
+    .insight-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; margin-top: 22px; }
+    .insight-panel { padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: rgba(7,20,33,.45); }
+    .insight-panel h3 { margin: 0 0 11px; font-size: .92rem; }
+    .insight-panel ul { margin: 0; padding-left: 18px; color: var(--muted); font-size: .78rem; line-height: 1.55; }
+    .reference-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+    .reference-list a { padding: 7px 10px; border: 1px solid rgba(77,159,255,.24); border-radius: 9px; color: #b9d8ff; background: rgba(77,159,255,.06); font-size: .72rem; font-weight: 700; text-decoration: none; }
+    .feedback-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 13px 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: .72rem; }
+    .feedback-row button { min-height: 36px; padding: 7px 10px; border: 1px solid var(--line); border-radius: 9px; color: #cfdded; background: transparent; cursor: pointer; }
+    .feedback-message { color: #85e7c1; }
+    .code-workspace { display: grid; grid-template-columns: 180px minmax(0,1fr); min-height: 440px; }
+    .file-list { padding: 12px; border-right: 1px solid var(--line); background: rgba(7,20,33,.6); }
+    .file-button { width: 100%; min-height: 40px; margin-bottom: 5px; padding: 8px 10px; border: 0; border-radius: 8px; color: var(--muted); background: transparent; font: inherit; font-size: .75rem; text-align: left; cursor: pointer; }
+    .file-button.active { color: white; background: rgba(77,159,255,.11); }
+    .code-pane { min-width: 0; overflow: auto; background: #06101b; }
+    .code-pane pre { margin: 0; padding: 20px; min-width: max-content; color: #d8e8f8; font: 500 .78rem/1.65 ui-monospace,SFMono-Regular,Menlo,monospace; tab-size: 2; }
+    .code-line { display: block; counter-increment: line; }
+    .code-line::before { content: counter(line); display: inline-block; width: 34px; margin-right: 16px; color: #536a83; text-align: right; user-select: none; }
+    .validation-summary { display: flex; flex-wrap: wrap; gap: 8px; padding: 14px 16px; border-top: 1px solid var(--line); }
+    .validation-check { padding: 6px 9px; border-radius: 999px; color: #85e7c1; background: rgba(67,212,158,.08); font-size: .68rem; font-weight: 750; }
+    .validation-check.fail { color: #fda4af; background: rgba(251,113,133,.08); }
+    .diagram-shell { display: grid; grid-template-columns: minmax(0,1fr) 240px; min-height: 430px; }
+    .diagram-canvas { display: grid; place-items: center; min-width: 0; padding: 22px; overflow: auto; background: #f8fafc; }
+    .diagram-canvas svg { max-width: 100%; height: auto; }
+    .diagram-details { padding: 20px; border-left: 1px solid var(--line); }
+    .diagram-details h3 { margin: 0 0 8px; font-size: .96rem; }
+    .diagram-details p,.diagram-details li { color: var(--muted); font-size: .76rem; line-height: 1.5; }
+    .scenario-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 10px; margin-top: 22px; }
+    .scenario-card { padding: 15px; border: 1px solid var(--line); border-radius: 13px; background: rgba(7,20,33,.48); }
+    .scenario-card span { display: block; color: var(--muted); font-size: .69rem; }
+    .scenario-card strong { display: block; margin: 6px 0; font-family: var(--heading); font-size: 1.15rem; }
+    .scenario-card small { color: #85e7c1; }
+    .evidence-panel { margin-top: 18px; padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: rgba(7,20,33,.48); }
+    .evidence-panel h3 { margin: 0 0 6px; font-size: .94rem; }
+    .evidence-panel > p { margin: 0 0 14px; color: var(--muted); font-size: .76rem; line-height: 1.5; }
+    .evidence-grid { display: grid; grid-template-columns: 220px minmax(0,1fr); gap: 12px; }
+    .file-upload { position: relative; display: flex; align-items: center; justify-content: center; min-height: 46px; padding: 10px; border: 1px dashed rgba(77,159,255,.38); border-radius: 10px; color: #b9d8ff; cursor: pointer; }
+    .file-upload input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+    .authority-section { margin: 0 0 72px; }
+    .authority-section > h2 { margin: 0 0 8px; font-size: clamp(1.55rem,4vw,2.25rem); }
+    .authority-intro { margin: 0 0 24px; max-width: 720px; color: var(--muted); line-height: 1.65; }
+    .authority-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; }
+    .authority-card { padding: 20px; border: 1px solid var(--line); border-radius: 16px; background: rgba(13,27,45,.66); }
+    .authority-card strong { display: block; margin-bottom: 7px; font-family: var(--heading); }
+    .authority-card span { color: var(--muted); font-size: .78rem; line-height: 1.55; }
+    .lead-card { display: grid; grid-template-columns: minmax(0,.8fr) minmax(0,1.2fr); gap: 26px; margin-top: 16px; padding: clamp(22px,4vw,34px); border: 1px solid rgba(77,159,255,.25); border-radius: 20px; background: radial-gradient(circle at 0 0,rgba(37,99,235,.17),transparent 45%),rgba(13,27,45,.88); }
+    .lead-card h2 { margin: 0 0 10px; }
+    .lead-card p { color: var(--muted); line-height: 1.6; }
+    .lead-form-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+    .lead-status { min-height: 22px; margin: 10px 0 0; color: #85e7c1; font-size: .76rem; }
     @keyframes spin { to { transform: rotate(360deg); } }
     footer { display: flex; justify-content: space-between; gap: 20px; padding: 0 0 42px; color: var(--muted); font-size: .9rem; }
     footer a { color: var(--blue); text-decoration: none; }
@@ -471,6 +553,14 @@
       footer { flex-direction: column; }
       .cost-form-grid, .estimate-hero { grid-template-columns: 1fr; }
       .security-profile, .assessment-hero { grid-template-columns: 1fr; }
+      .trust-rail,.authority-grid,.scenario-grid,.insight-grid,.lead-card,.lead-form-grid,.evidence-grid,.diagram-shell { grid-template-columns: 1fr; }
+      .header-cta { display: none; }
+      .code-workspace { grid-template-columns: 1fr; }
+      .file-list { display: flex; gap: 5px; overflow-x: auto; border-right: 0; border-bottom: 1px solid var(--line); }
+      .file-button { width: auto; min-width: max-content; margin: 0; }
+      .diagram-details { border-left: 0; border-top: 1px solid var(--line); }
+      .advisory-hero { grid-template-columns: 1fr; }
+      .confidence-card { justify-self: start; }
       .security-score { width: 112px; height: 112px; }
       .field-pair { grid-template-columns: 1fr; }
       .estimate-cta, .assessment-cta { align-items: flex-start; flex-direction: column; }
@@ -488,7 +578,10 @@
         <span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M3 15a4 4 0 0 0 4 4h9a5 5 0 1 0-.1-10A5 5 0 1 0 6.12 11.1 4 4 0 0 0 3 15Z" stroke="white" stroke-width="2" stroke-linejoin="round"/></svg></span>
         <span>UP2CLOUD</span>
       </div>
-      <div class="status connecting" id="api-status" role="status">Connecting to assistant…</div>
+      <div class="header-actions">
+        <div class="status connecting" id="api-status" role="status">Connecting to assistant…</div>
+        <a class="header-cta" href="https://up2cloud.tech/#contact">Talk to an expert</a>
+      </div>
     </header>
 
     <main>
@@ -496,9 +589,20 @@
         <div class="eyebrow">Cloud engineering intelligence</div>
         <h1>Your cloud, engineered better.</h1>
         <p>Explore architecture, DevOps, FinOps, infrastructure-as-code and security guidance for AWS, Azure, Google Cloud and Kubernetes.</p>
+        <div class="hero-actions">
+          <a class="primary-link" href="#assistant-workspace">Start with a real scenario</a>
+          <a class="secondary-link" href="#work-with-up2cloud">Review delivery approach</a>
+        </div>
       </section>
 
-      <section class="workspace" aria-label="UP2CLOUD assistant tools">
+      <section class="trust-rail" aria-label="UP2CLOUD delivery principles">
+        <div class="trust-item"><strong>Principal-led</strong><span>Senior cloud architecture judgment, not generic automation.</span></div>
+        <div class="trust-item"><strong>Evidence-aware</strong><span>Assumptions and confidence are visible in every assessment.</span></div>
+        <div class="trust-item"><strong>Secure by default</strong><span>Generated infrastructure starts deny-by-default and is validated.</span></div>
+        <div class="trust-item"><strong>No credentials required</strong><span>The public experience never connects to your cloud account.</span></div>
+      </section>
+
+      <section class="workspace" id="assistant-workspace" aria-label="UP2CLOUD assistant tools">
         <div class="tabs" role="tablist" aria-label="Assistant features">
           <button class="tab" id="tab-qa" role="tab" aria-selected="true" aria-controls="qa" tabindex="0" data-panel="qa">Cloud Q&amp;A</button>
           <button class="tab" id="tab-cost" role="tab" aria-selected="false" aria-controls="cost" tabindex="-1" data-panel="cost">Cost estimate</button>
@@ -519,7 +623,7 @@
               <button class="prompt-card" type="button" data-prompt-target="qa" data-prompt="Recommend a secure multi-account AWS foundation with identity, network segmentation, centralized logging, guardrails, and an implementation sequence." data-company="International enterprise" data-infrastructure="Multiple independent AWS accounts" data-challenges="Standardize governance without slowing delivery"><strong>Secure AWS landing zone</strong><span>Define identity, networking, logging, and guardrails.</span></button>
             </div>
           </div>
-          <form data-endpoint="/api/predict" data-output="qa-output">
+          <form data-endpoint="/v1/assist" data-output="qa-output" data-result-type="qa">
             <div class="grid">
               <label>Question<textarea name="prompt" required placeholder="How should we migrate this workload to Kubernetes?"></textarea></label>
               <div class="grid">
@@ -529,7 +633,7 @@
               </div>
             </div>
             <button class="primary" type="submit">Get guidance</button>
-            <pre class="output" id="qa-output" aria-live="polite"></pre>
+            <section class="result-card" id="qa-output" aria-live="polite" aria-atomic="true"></section>
           </form>
         </section>
 
@@ -541,7 +645,9 @@
             <span class="context-chip">730 hours / month</span>
             <span class="context-chip">USD estimate</span>
           </div>
-          <form data-endpoint="/api/cost" data-output="cost-output">
+          <form data-endpoint="/v1/cost/estimate" data-output="cost-output" data-result-type="cost">
+            <input type="hidden" name="provider" value="aws">
+            <input type="hidden" name="region" value="us-east-1">
             <div class="cost-form-grid">
               <div class="field-card">
                 <p class="field-card-title"><span class="field-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="3" stroke="currentColor" stroke-width="2"/><path d="M9 9h6v6H9zM9 1v3m6-3v3M9 20v3m6-3v3M1 9h3m-3 6h3m16-6h3m-3 6h3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>EC2 compute</p>
@@ -565,6 +671,17 @@
                 <p class="field-card-title"><span class="field-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="m13 2-9 12h7l-1 8 10-13h-7V2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span>Lambda requests</p>
                 <label>Requests / month<input name="lambda_requests" type="number" inputmode="numeric" min="0" max="1000000000" step="100000" value="0"><span class="field-hint">Request charge only; compute duration excluded</span></label>
               </div>
+              <div class="field-card">
+                <p class="field-card-title"><span class="field-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 19V9m6 10V5m6 14v-7m4 7H2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>Observed evidence</p>
+                <div class="field-pair">
+                  <label>Current monthly spend<input name="observed_monthly_spend" type="number" inputmode="decimal" min="0" max="100000000" placeholder="Optional USD"><span class="field-hint">Used to explain estimate variance</span></label>
+                  <label>Average compute utilization<input name="average_compute_utilization_percent" type="number" inputmode="decimal" min="0" max="100" placeholder="Optional %"><span class="field-hint">Improves scenario confidence</span></label>
+                </div>
+              </div>
+              <div class="field-card">
+                <p class="field-card-title"><span class="field-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3v18m8-9H4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>Pricing scope</p>
+                <label>Reviewed catalog<select name="pricing_region" disabled><option>AWS us-east-1 · USD</option></select><span class="field-hint">Every result includes catalog date, source links, range, and assumptions</span></label>
+              </div>
             </div>
             <div class="form-actions">
               <button class="primary" type="submit">Calculate estimate</button>
@@ -586,21 +703,21 @@
               <button class="prompt-card" type="button" data-prompt-target="code" data-prompt="Generate Terraform for a secure AWS networking foundation with a three-AZ VPC, public and private subnets, NAT gateways, VPC endpoints, flow logs, route tables, and reusable variables and outputs."><strong>Multi-AZ AWS network</strong><span>VPC, subnets, endpoints, flow logs, and routing.</span></button>
             </div>
           </div>
-          <form data-endpoint="/api/predict" data-output="code-output" data-feature="generate_code">
-            <label>Infrastructure requirement<textarea name="prompt" required placeholder="Generate Terraform for a highly available three-tier AWS application."></textarea></label>
+          <form data-endpoint="/v1/terraform/generate" data-output="code-output" data-result-type="terraform">
+            <label>Infrastructure requirement<textarea name="requirement" required placeholder="Generate Terraform for a highly available three-tier AWS application."></textarea></label>
             <button class="primary" type="submit">Generate Terraform</button>
-            <pre class="output" id="code-output" aria-live="polite"></pre>
+            <section class="result-card" id="code-output" aria-live="polite" aria-atomic="true"></section>
           </form>
         </section>
 
         <section class="panel" id="architecture" role="tabpanel" aria-labelledby="tab-architecture" hidden>
           <h2>Architecture patterns</h2>
           <p class="intro">Generate a Mermaid architecture diagram for a common cloud pattern.</p>
-          <form data-endpoint="/api/predict" data-output="architecture-output" data-feature="architecture_diagram">
+          <form data-endpoint="/v1/architecture/generate" data-output="architecture-output" data-result-type="architecture">
             <label>Pattern<select name="diagram_type"><option value="microservices">Microservices</option><option value="serverless">Serverless</option><option value="kubernetes">Kubernetes</option></select></label>
-            <input type="hidden" name="prompt" value="Generate an architecture diagram">
+            <label>Design context <span class="field-hint">Optional</span><textarea name="architecture_requirements" placeholder="Availability, traffic, compliance, RTO/RPO, region, and delivery constraints."></textarea></label>
             <button class="primary" type="submit">Generate diagram</button>
-            <pre class="output" id="architecture-output" aria-live="polite"></pre>
+            <section class="result-card" id="architecture-output" aria-live="polite" aria-atomic="true"></section>
           </form>
         </section>
 
@@ -612,23 +729,63 @@
             <span class="context-chip">3 foundational controls</span>
             <span class="context-chip">No account access</span>
           </div>
-          <form data-endpoint="/api/predict" data-output="security-output" data-feature="security_scan">
-            <input type="hidden" name="prompt" value="Perform security audit">
+          <form data-endpoint="/v1/security/assess" data-output="security-output" data-result-type="security">
             <div class="security-profile">
               <label class="security-control"><input name="encryption_enabled" type="checkbox"><span class="security-control-copy"><strong>Encryption at rest</strong><span>Data stores, volumes, snapshots, and backups are encrypted.</span></span></label>
               <label class="security-control"><input name="mfa_enabled" type="checkbox"><span class="security-control-copy"><strong>Administrative MFA</strong><span>Privileged and emergency access requires multi-factor authentication.</span></span></label>
               <label class="security-control"><input name="restrict_security_groups" type="checkbox"><span class="security-control-copy"><strong>Restricted security groups</strong><span>Rules allow only required ports and trusted network sources.</span></span></label>
+            </div>
+            <div class="evidence-panel">
+              <h3>Add configuration evidence</h3>
+              <p>Paste or load a Terraform/configuration excerpt. The public demo performs local pattern checks and never connects to your account. Remove secrets before submitting.</p>
+              <div class="evidence-grid">
+                <div>
+                  <label>Evidence type<select name="evidence_source"><option value="self_reported">Self-reported only</option><option value="terraform">Terraform</option><option value="config_export">Configuration export</option><option value="policy_document">Policy document</option></select></label>
+                  <label class="file-upload">Load a local evidence file<input name="evidence_file" type="file" accept=".tf,.json,.txt,.yaml,.yml"><span data-file-label>No file selected</span></label>
+                </div>
+                <label>Evidence excerpt<textarea name="evidence_text" maxlength="100000" placeholder="Example: storage_encrypted = true, kms_key_id = ..., allowed_ingress_cidrs = [...] "></textarea></label>
+              </div>
             </div>
             <button class="primary" type="submit">Generate security report</button>
             <section class="security-result" id="security-output" aria-live="polite" aria-atomic="true"></section>
           </form>
         </section>
       </section>
+
+      <section class="authority-section" id="work-with-up2cloud" aria-labelledby="authority-title">
+        <div class="eyebrow">From assessment to delivery</div>
+        <h2 id="authority-title">Professional judgment behind every recommendation.</h2>
+        <p class="authority-intro">The public assistant demonstrates how UP2CLOUD structures cloud decisions. Real engagements add configuration evidence, stakeholder constraints, delivery ownership, and measurable outcomes.</p>
+        <div class="authority-grid">
+          <div class="authority-card"><strong>Architecture with trade-offs</strong><span>Decisions connect business constraints to reliability, security, delivery speed, and operating cost.</span></div>
+          <div class="authority-card"><strong>FinOps with evidence</strong><span>Savings are tied to workload behavior, confidence ranges, ownership, and reliability guardrails.</span></div>
+          <div class="authority-card"><strong>Automation with controls</strong><span>Infrastructure starts with explicit boundaries, validation, observability, and reviewable change.</span></div>
+        </div>
+        <div class="lead-card">
+          <div>
+            <div class="eyebrow">Start a focused conversation</div>
+            <h2>Turn the demo into a delivery plan.</h2>
+            <p>Prepare a concise enquiry for UP2CLOUD. Your details stay in your browser until you choose to send the email.</p>
+            <p><a href="https://up2cloud.tech/privacy.html">Privacy information</a> · <a href="mailto:hello@up2cloud.tech">hello@up2cloud.tech</a></p>
+          </div>
+          <form id="lead-form" novalidate>
+            <div class="lead-form-grid">
+              <label>Name <span class="field-hint">Required</span><input name="lead_name" autocomplete="name" required maxlength="120" placeholder="Your name"></label>
+              <label>Work email <span class="field-hint">Required</span><input name="lead_email" type="email" autocomplete="email" required maxlength="254" placeholder="you@company.com"></label>
+              <label>Company<input name="lead_company" autocomplete="organization" maxlength="160" placeholder="Company name"></label>
+              <label>Primary need<select name="lead_need"><option>Cloud architecture review</option><option>FinOps and cost optimization</option><option>Platform engineering</option><option>Terraform and automation</option><option>Security assessment</option></select></label>
+            </div>
+            <label>What outcome do you need?<textarea name="lead_challenge" required maxlength="2000" placeholder="Scope, current platform, urgency, and target outcome."></textarea></label>
+            <button class="primary" type="submit">Prepare secure enquiry</button>
+            <p class="lead-status" id="lead-status" role="status"></p>
+          </form>
+        </div>
+      </section>
     </main>
 
     <footer>
       <span>UP2CLOUD · Cloud, DevOps, FinOps and automation consulting</span>
-      <a href="https://up2cloud-ai-assistant.streamlit.app/">Open the Streamlit experience →</a>
+      <a href="https://up2cloud.tech/">Return to UP2CLOUD →</a>
     </footer>
   </div>
 
@@ -641,12 +798,15 @@
       : pathPrefix;
     const apiStatus = document.getElementById('api-status');
     const tabs = Array.from(document.querySelectorAll('.tab'));
+    const sessionId = localStorage.getItem('up2cloud-assistant-session') || (crypto.randomUUID ? crypto.randomUUID() : `session-${Date.now()}-${Math.random().toString(16).slice(2)}`);
+    localStorage.setItem('up2cloud-assistant-session', sessionId);
 
     fetch(`${apiBase}/health`, { cache: 'no-store' })
-      .then((response) => {
+      .then(async (response) => {
         if (!response.ok) throw new Error('Health check failed');
+        const health = await response.json();
         apiStatus.className = 'status';
-        apiStatus.textContent = 'API Online';
+        apiStatus.textContent = `API Online · v${health.version || '3'}`;
       })
       .catch(() => {
         apiStatus.className = 'status offline';
@@ -683,39 +843,59 @@
 
     function payloadFor(form) {
       const values = new FormData(form);
-      const feature = form.dataset.feature;
-      if (form.dataset.endpoint === '/api/cost') {
+      if (form.dataset.endpoint === '/v1/cost/estimate') {
         const ec2Count = Number(values.get('ec2_count'));
         const rdsCount = Number(values.get('rds_count'));
         const storage = Number(values.get('s3_storage_gb'));
         const lambdaRequests = Number(values.get('lambda_requests'));
-        const infrastructure = {};
+        const observedSpend = values.get('observed_monthly_spend');
+        const utilization = values.get('average_compute_utilization_percent');
+        const infrastructure = { provider: 'aws', region: 'us-east-1' };
         if (ec2Count > 0) infrastructure.ec2_instances = [{ type: values.get('ec2_type'), count: ec2Count }];
-        if (rdsCount > 0) {
-          infrastructure.rds_instances = Array.from(
-            { length: Math.min(rdsCount, 20) },
-            () => ({ type: values.get('rds_type') })
-          );
-        }
+        if (rdsCount > 0) infrastructure.rds_instances = [{ type: values.get('rds_type'), count: rdsCount }];
         if (storage > 0) infrastructure.s3_storage_gb = storage;
         if (lambdaRequests > 0) infrastructure.lambda_requests = lambdaRequests;
+        if (observedSpend || utilization) {
+          infrastructure.evidence = {
+            evidence_source: 'user-entered billing and utilization evidence',
+            observed_monthly_spend: observedSpend ? Number(observedSpend) : undefined,
+            average_compute_utilization_percent: utilization ? Number(utilization) : undefined
+          };
+        }
         return { infrastructure };
+      }
+
+      if (form.dataset.endpoint === '/v1/terraform/generate') {
+        return { requirement: values.get('requirement'), aws_region: 'us-east-1' };
+      }
+
+      if (form.dataset.endpoint === '/v1/architecture/generate') {
+        return {
+          pattern: values.get('diagram_type'),
+          requirements: values.get('architecture_requirements') || null
+        };
+      }
+
+      if (form.dataset.endpoint === '/v1/security/assess') {
+        return {
+          context: {
+            encryption_enabled: form.elements.encryption_enabled.checked,
+            mfa_enabled: form.elements.mfa_enabled.checked,
+            restrict_security_groups: form.elements.restrict_security_groups.checked,
+            evidence_source: values.get('evidence_source'),
+            evidence_text: values.get('evidence_text') || null
+          }
+        };
       }
 
       const context = {};
       ['company_type', 'current_infrastructure', 'challenges'].forEach((key) => {
         if (values.get(key)) context[key] = values.get(key);
       });
-      ['encryption_enabled', 'mfa_enabled', 'restrict_security_groups'].forEach((key) => {
-        if (form.elements[key]) context[key] = form.elements[key].checked;
-      });
-      const features = {};
-      if (feature) features[feature] = true;
-      if (feature === 'architecture_diagram') features.diagram_type = values.get('diagram_type');
       return {
         prompt: values.get('prompt'),
         context: Object.keys(context).length ? context : null,
-        features: Object.keys(features).length ? features : null
+        session_id: sessionId
       };
     }
 
@@ -735,16 +915,260 @@
       }).format(value);
     }
 
+    async function copyText(text, button) {
+      await navigator.clipboard.writeText(text);
+      const original = button.textContent;
+      button.textContent = 'Copied';
+      window.setTimeout(() => { button.textContent = original; }, 1400);
+    }
+
+    function downloadText(filename, text, type = 'text/plain') {
+      const url = URL.createObjectURL(new Blob([text], { type }));
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename;
+      document.body.append(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    async function shareResult(title, text, button) {
+      if (navigator.share) {
+        await navigator.share({ title, text, url: 'https://up2cloud.tech/ai-assistent-model/' });
+        return;
+      }
+      await copyText(`${title}\n\n${text}\n\nhttps://up2cloud.tech/ai-assistent-model/`, button);
+    }
+
+    function createToolbar(label, actions) {
+      const toolbar = makeElement('div', 'result-toolbar');
+      toolbar.append(makeElement('span', 'result-label', label));
+      const controls = makeElement('div', 'toolbar-actions');
+      actions.forEach(({ label: actionLabel, handler }) => {
+        const button = makeElement('button', 'tool-button', actionLabel);
+        button.type = 'button';
+        button.addEventListener('click', () => handler(button));
+        controls.append(button);
+      });
+      toolbar.append(controls);
+      return toolbar;
+    }
+
+    function appendInlineMarkdown(parent, value) {
+      const pattern = /(\*\*[^*]+\*\*|`[^`]+`)/g;
+      let cursor = 0;
+      for (const match of value.matchAll(pattern)) {
+        if (match.index > cursor) parent.append(document.createTextNode(value.slice(cursor, match.index)));
+        const token = match[0];
+        if (token.startsWith('**')) parent.append(makeElement('strong', '', token.slice(2, -2)));
+        else parent.append(makeElement('code', '', token.slice(1, -1)));
+        cursor = match.index + token.length;
+      }
+      if (cursor < value.length) parent.append(document.createTextNode(value.slice(cursor)));
+    }
+
+    function renderMarkdown(markdown) {
+      const container = makeElement('div', 'markdown-content');
+      let list = null;
+      let listType = null;
+      const flushList = () => { list = null; listType = null; };
+      String(markdown || '').split('\n').forEach((rawLine) => {
+        const line = rawLine.trim();
+        if (!line) { flushList(); return; }
+        if (line.startsWith('## ')) {
+          flushList();
+          container.append(makeElement('h2', '', line.slice(3)));
+          return;
+        }
+        const ordered = line.match(/^\d+\.\s+(.+)$/);
+        const unordered = line.match(/^-\s+(.+)$/);
+        if (ordered || unordered) {
+          const type = ordered ? 'ol' : 'ul';
+          if (!list || listType !== type) {
+            list = makeElement(type, '');
+            listType = type;
+            container.append(list);
+          }
+          const item = makeElement('li', '');
+          appendInlineMarkdown(item, (ordered || unordered)[1]);
+          list.append(item);
+          return;
+        }
+        flushList();
+        const paragraph = makeElement('p', '');
+        appendInlineMarkdown(paragraph, line);
+        container.append(paragraph);
+      });
+      return container;
+    }
+
+    function createFeedbackRow(feature, requestId) {
+      const row = makeElement('div', 'feedback-row');
+      row.append(makeElement('span', '', 'Was this useful?'));
+      const message = makeElement('span', 'feedback-message', '');
+      ['helpful', 'not_helpful'].forEach((rating) => {
+        const button = makeElement('button', '', rating === 'helpful' ? 'Yes, useful' : 'Needs improvement');
+        button.type = 'button';
+        button.addEventListener('click', async () => {
+          button.disabled = true;
+          try {
+            const response = await fetch(`${apiBase}/v1/feedback`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ feature, rating, request_id: requestId || null })
+            });
+            if (!response.ok) throw new Error('Feedback unavailable');
+            message.textContent = 'Thank you — feedback recorded.';
+          } catch {
+            message.textContent = 'Feedback could not be recorded right now.';
+          } finally {
+            button.disabled = false;
+          }
+        });
+        row.append(button);
+      });
+      row.append(message);
+      return row;
+    }
+
+    function renderAdvisory(output, result) {
+      if (!result || !result.answer_markdown) throw new Error('The advisory response was incomplete');
+      output.replaceChildren();
+      output.className = 'result-card visible';
+      output.append(createToolbar('Structured cloud advisory', [
+        { label: 'Copy', handler: (button) => copyText(result.answer_markdown, button) },
+        { label: 'Download Markdown', handler: () => downloadText('up2cloud-advisory.md', result.answer_markdown, 'text/markdown') },
+        { label: 'Share summary', handler: (button) => shareResult(result.category, result.executive_summary, button) }
+      ]));
+
+      const hero = makeElement('div', 'advisory-hero');
+      const copy = makeElement('div', '');
+      copy.append(
+        makeElement('span', 'estimate-kicker', result.advisory_mode || 'Cloud advisory'),
+        makeElement('h3', '', result.category || 'Cloud engineering recommendation'),
+        makeElement('p', '', result.executive_summary)
+      );
+      const confidence = Math.round(Number(result.confidence || 0) * 100);
+      const confidenceCard = makeElement('div', 'confidence-card');
+      confidenceCard.append(makeElement('strong', '', `${confidence}%`), makeElement('span', '', 'Context confidence'));
+      hero.append(copy, confidenceCard);
+
+      const body = makeElement('div', 'result-body');
+      body.append(renderMarkdown(result.answer_markdown));
+      const insights = makeElement('div', 'insight-grid');
+      [
+        ['Assumptions', result.assumptions || []],
+        ['Questions to improve confidence', result.follow_up_questions || []]
+      ].forEach(([title, items]) => {
+        const panel = makeElement('section', 'insight-panel');
+        panel.append(makeElement('h3', '', title));
+        const list = makeElement('ul', '');
+        items.forEach((item) => list.append(makeElement('li', '', item)));
+        panel.append(list);
+        insights.append(panel);
+      });
+      body.append(insights);
+      const references = makeElement('div', 'reference-list');
+      (result.references || []).forEach((reference) => {
+        const link = makeElement('a', '', reference.title);
+        link.href = reference.url;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        references.append(link);
+      });
+      body.append(references);
+      output.append(hero, body, createFeedbackRow('qa', result.request_id));
+    }
+
+    function renderTerraform(output, result) {
+      const files = Array.isArray(result.files) ? result.files : [];
+      if (!files.length) throw new Error('No Terraform files were returned');
+      output.replaceChildren();
+      output.className = 'result-card visible';
+      let activeFile = files[0];
+      const codePre = makeElement('pre', '');
+      const renderFile = (file) => {
+        activeFile = file;
+        codePre.replaceChildren();
+        file.content.replace(/\n$/, '').split('\n').forEach((line) => codePre.append(makeElement('span', 'code-line', line || ' ')));
+      };
+      output.append(createToolbar(result.profile_name || 'Terraform starter', [
+        { label: 'Copy file', handler: (button) => copyText(activeFile.content, button) },
+        { label: 'Download file', handler: () => downloadText(activeFile.name, activeFile.content) },
+        { label: 'Export all', handler: () => downloadText('up2cloud-foundation.tf', result.combined_code) }
+      ]));
+      const workspace = makeElement('div', 'code-workspace');
+      const fileList = makeElement('div', 'file-list');
+      const codePane = makeElement('div', 'code-pane');
+      codePane.append(codePre);
+      files.forEach((file, index) => {
+        const button = makeElement('button', `file-button${index === 0 ? ' active' : ''}`, file.name);
+        button.type = 'button';
+        button.addEventListener('click', () => {
+          fileList.querySelectorAll('.file-button').forEach((item) => item.classList.remove('active'));
+          button.classList.add('active');
+          renderFile(file);
+        });
+        fileList.append(button);
+      });
+      workspace.append(fileList, codePane);
+      renderFile(activeFile);
+      const validation = makeElement('div', 'validation-summary');
+      validation.append(makeElement('span', 'result-label', `Validation: ${result.validation?.status || 'unknown'}`));
+      (result.validation?.checks || []).forEach((check) => validation.append(
+        makeElement('span', `validation-check${check.status === 'pass' ? '' : ' fail'}`, `${check.status === 'pass' ? 'PASS' : 'REVIEW'} · ${check.title}`)
+      ));
+      const notice = makeElement('p', 'estimate-note', result.generation_notice || 'Review generated infrastructure before deployment.');
+      const noticeWrap = makeElement('div', 'result-body');
+      noticeWrap.append(notice);
+      output.append(workspace, validation, noticeWrap, createFeedbackRow('terraform', result.request_id));
+    }
+
+    async function renderArchitecture(output, result) {
+      if (!result || !result.diagram) throw new Error('No architecture diagram was returned');
+      output.replaceChildren();
+      output.className = 'result-card visible';
+      let renderedSvg = '';
+      output.append(createToolbar(result.title || 'Architecture pattern', [
+        { label: 'Copy Mermaid', handler: (button) => copyText(result.diagram, button) },
+        { label: 'Download Mermaid', handler: () => downloadText('up2cloud-architecture.mmd', result.diagram) },
+        { label: 'Export SVG', handler: () => renderedSvg && downloadText('up2cloud-architecture.svg', renderedSvg, 'image/svg+xml') }
+      ]));
+      const shell = makeElement('div', 'diagram-shell');
+      const canvas = makeElement('div', 'diagram-canvas');
+      canvas.setAttribute('role', 'img');
+      canvas.setAttribute('aria-label', result.accessibility_summary || result.description || 'Cloud architecture diagram');
+      const details = makeElement('aside', 'diagram-details');
+      details.append(makeElement('h3', '', result.title), makeElement('p', '', result.description));
+      const components = makeElement('ul', '');
+      (result.components || []).forEach((component) => components.append(makeElement('li', '', component)));
+      details.append(makeElement('h3', '', 'Key components'), components);
+      shell.append(canvas, details);
+      output.append(shell, createFeedbackRow('architecture', result.request_id));
+      if (window.mermaid) {
+        window.mermaid.initialize({ startOnLoad: false, securityLevel: 'strict', theme: 'neutral' });
+        const rendered = await window.mermaid.render(`up2cloud-diagram-${Date.now()}`, result.diagram);
+        renderedSvg = rendered.svg;
+        canvas.innerHTML = renderedSvg;
+      } else {
+        const fallback = makeElement('pre', '');
+        fallback.textContent = result.diagram;
+        canvas.append(fallback);
+      }
+    }
+
     function renderResultState(output, message, type) {
       output.replaceChildren();
-      output.className = `cost-result visible`;
+      const baseClass = output.id === 'cost-output'
+        ? 'cost-result'
+        : output.id === 'security-output' ? 'security-result' : 'result-card';
+      output.className = `${baseClass} visible`;
       output.append(makeElement('div', `result-state ${type}`, message));
     }
 
     function renderSecurityState(output, message, type) {
-      output.replaceChildren();
-      output.className = 'security-result visible';
-      output.append(makeElement('div', `result-state ${type}`, message));
+      renderResultState(output, message, type);
     }
 
     function renderSecurityAssessment(output, audit) {
@@ -764,6 +1188,11 @@
 
       output.replaceChildren();
       output.className = 'security-result visible';
+      output.append(createToolbar('Security baseline report', [
+        { label: 'Copy JSON', handler: (button) => copyText(JSON.stringify(audit, null, 2), button) },
+        { label: 'Download report', handler: () => downloadText('up2cloud-security-report.json', JSON.stringify(audit, null, 2), 'application/json') },
+        { label: 'Share summary', handler: (button) => shareResult('UP2CLOUD security baseline', audit.summary, button) }
+      ]));
 
       const hero = makeElement('div', 'assessment-hero');
       const scoreRing = makeElement('div', `security-score ${riskClass}`);
@@ -792,7 +1221,8 @@
       [
         [String(passedCount), 'Controls reported enabled'],
         [String(priorityCount), 'Priority actions'],
-        [String(checks.length), 'Controls evaluated']
+        [String(checks.length), 'Controls evaluated'],
+        [String(audit.evidence_summary?.verified_checks || 0), 'Evidence verified']
       ].forEach(([value, label]) => {
         const metric = makeElement('div', 'assessment-metric');
         metric.append(makeElement('strong', '', value), makeElement('span', '', label));
@@ -811,12 +1241,13 @@
         icon.setAttribute('aria-hidden', 'true');
         const checkCopy = makeElement('div', '');
         const checkHeader = makeElement('div', 'assessment-check-header');
+        const evidenceLabel = check.evidence?.status === 'verified' ? ' · evidence verified' : check.evidence?.status === 'adverse' ? ' · adverse evidence' : '';
         const severity = status === 'pass'
           ? 'Control enabled'
           : `${String(check.severity || 'review')} priority`;
         checkHeader.append(
           makeElement('strong', '', String(check.title || 'Security control')),
-          makeElement('span', 'severity', severity)
+          makeElement('span', 'severity', `${severity}${evidenceLabel}`)
         );
         const finding = makeElement('p', 'assessment-finding', String(check.finding || 'Review this control.'));
         const action = makeElement('p', 'assessment-action');
@@ -847,7 +1278,7 @@
       ctaLink.rel = 'noopener noreferrer';
       cta.append(ctaCopy, ctaLink);
 
-      output.append(hero, body, cta);
+      output.append(hero, body, cta, createFeedbackRow('security', audit.request_id));
     }
 
     function renderCostEstimate(output, result) {
@@ -864,6 +1295,11 @@
 
       output.replaceChildren();
       output.className = 'cost-result visible';
+      output.append(createToolbar('AWS cost scenario report', [
+        { label: 'Copy JSON', handler: (button) => copyText(JSON.stringify(result, null, 2), button) },
+        { label: 'Download report', handler: () => downloadText('up2cloud-cost-scenarios.json', JSON.stringify(result, null, 2), 'application/json') },
+        { label: 'Share summary', handler: (button) => shareResult('UP2CLOUD AWS cost scenario', `On-demand baseline: ${formatCurrency(monthly, currency)} per month.`, button) }
+      ]));
 
       const hero = makeElement('div', 'estimate-hero');
       const totalBlock = makeElement('div', 'estimate-total-block');
@@ -884,7 +1320,17 @@
         makeElement('span', '', 'Billable services'),
         makeElement('strong', '', String(breakdown.length))
       );
-      metrics.append(annualMetric, servicesMetric);
+      const rangeMetric = makeElement('div', 'estimate-metric');
+      rangeMetric.append(
+        makeElement('span', '', 'Estimate range'),
+        makeElement('strong', '', `${formatCurrency(result.estimate_range?.low || monthly, currency)}–${formatCurrency(result.estimate_range?.high || monthly, currency)}`)
+      );
+      const confidenceMetric = makeElement('div', 'estimate-metric');
+      confidenceMetric.append(
+        makeElement('span', '', 'Evidence confidence'),
+        makeElement('strong', '', String(result.evidence?.confidence || 'baseline'))
+      );
+      metrics.append(annualMetric, servicesMetric, rangeMetric, confidenceMetric);
       hero.append(totalBlock, metrics);
 
       const breakdownSection = makeElement('div', 'breakdown-section');
@@ -924,12 +1370,24 @@
         breakdownList.append(makeElement('p', 'result-state', 'No billable services were returned for this estimate.'));
       }
 
+      const scenarioGrid = makeElement('div', 'scenario-grid');
+      (result.scenarios || []).forEach((scenario) => {
+        const card = makeElement('article', 'scenario-card');
+        card.append(
+          makeElement('span', '', scenario.name),
+          makeElement('strong', '', formatCurrency(Number(scenario.monthly_cost), currency)),
+          makeElement('small', '', Number(scenario.savings) > 0 ? `${formatCurrency(Number(scenario.savings), currency)} indicative saving` : 'Current baseline'),
+          makeElement('p', 'field-hint', scenario.assumption)
+        );
+        scenarioGrid.append(card);
+      });
+
       const note = makeElement(
         'p',
         'estimate-note',
-        'Indicative estimate based on simplified public on-demand rates. Taxes, support plans, data transfer, storage requests, discounts, Savings Plans, and regional differences are not included.'
+        `${result.pricing_metadata?.rate_type || 'Public on-demand baseline'} · catalog reviewed ${result.pricing_metadata?.last_reviewed || 'not supplied'}. ${result.pricing_metadata?.disclaimer || 'Confirm pricing before commitment.'}`
       );
-      breakdownSection.append(breakdownHeading, breakdownList, note);
+      breakdownSection.append(breakdownHeading, breakdownList, scenarioGrid, note);
 
       const cta = makeElement('div', 'estimate-cta');
       const ctaCopy = makeElement('div', '');
@@ -943,10 +1401,10 @@
       ctaLink.rel = 'noopener noreferrer';
       cta.append(ctaCopy, ctaLink);
 
-      output.append(hero, breakdownSection, cta);
+      output.append(hero, breakdownSection, cta, createFeedbackRow('cost', result.request_id));
     }
 
-    const costForm = document.querySelector('form[data-endpoint="/api/cost"]');
+    const costForm = document.querySelector('form[data-endpoint="/v1/cost/estimate"]');
     const sampleButton = document.querySelector('[data-cost-example]');
     if (costForm && sampleButton) {
       sampleButton.addEventListener('click', () => {
@@ -956,6 +1414,8 @@
         costForm.elements.rds_type.value = 'db.t3.small';
         costForm.elements.s3_storage_gb.value = 1000;
         costForm.elements.lambda_requests.value = 5000000;
+        costForm.elements.observed_monthly_spend.value = 650;
+        costForm.elements.average_compute_utilization_percent.value = 38;
         costForm.requestSubmit();
       });
     }
@@ -966,7 +1426,8 @@
         const form = panel?.querySelector('form[data-endpoint]');
         if (!form) return;
 
-        form.elements.prompt.value = starter.dataset.prompt;
+        const promptField = form.elements.prompt || form.elements.requirement;
+        if (promptField) promptField.value = starter.dataset.prompt;
         if (form.elements.company_type) form.elements.company_type.value = starter.dataset.company || '';
         if (form.elements.current_infrastructure) form.elements.current_infrastructure.value = starter.dataset.infrastructure || '';
         if (form.elements.challenges) form.elements.challenges.value = starter.dataset.challenges || '';
@@ -974,16 +1435,45 @@
       });
     });
 
+    const evidenceFile = document.querySelector('input[name="evidence_file"]');
+    if (evidenceFile) {
+      evidenceFile.addEventListener('change', async () => {
+        const file = evidenceFile.files?.[0];
+        const label = document.querySelector('[data-file-label]');
+        if (!file) {
+          label.textContent = 'No file selected';
+          return;
+        }
+        if (file.size > 100000) {
+          evidenceFile.value = '';
+          label.textContent = 'File exceeds 100 KB';
+          return;
+        }
+        document.querySelector('textarea[name="evidence_text"]').value = await file.text();
+        label.textContent = file.name;
+        const extension = file.name.split('.').pop()?.toLowerCase();
+        const source = document.querySelector('select[name="evidence_source"]');
+        source.value = extension === 'tf' ? 'terraform' : extension === 'json' ? 'config_export' : 'policy_document';
+      });
+    }
+
     document.querySelectorAll('form[data-endpoint]').forEach((form) => {
       form.addEventListener('submit', async (event) => {
         event.preventDefault();
         const button = form.querySelector('button[type="submit"]');
         const output = document.getElementById(form.dataset.output);
-        const isCostEstimate = form.dataset.endpoint === '/api/cost';
-        const isSecurityAssessment = form.dataset.feature === 'security_scan';
+        const resultType = form.dataset.resultType;
+        const isCostEstimate = resultType === 'cost';
+        const isSecurityAssessment = resultType === 'security';
         const payload = payloadFor(form);
 
-        if (isCostEstimate && !Object.keys(payload.infrastructure).length) {
+        const hasCostResource = isCostEstimate && (
+          payload.infrastructure.ec2_instances?.length ||
+          payload.infrastructure.rds_instances?.length ||
+          payload.infrastructure.s3_storage_gb > 0 ||
+          payload.infrastructure.lambda_requests > 0
+        );
+        if (isCostEstimate && !hasCostResource) {
           renderResultState(output, 'Add at least one resource to calculate an estimate.', 'error');
           return;
         }
@@ -997,8 +1487,7 @@
         } else if (isSecurityAssessment) {
           renderSecurityState(output, 'Evaluating controls and preparing prioritized actions…', 'loading');
         } else {
-          output.classList.add('visible');
-          output.textContent = 'Working…';
+          renderResultState(output, resultType === 'terraform' ? 'Generating and validating secure Terraform…' : resultType === 'architecture' ? 'Rendering an accessible architecture pattern…' : 'Preparing structured cloud guidance…', 'loading');
         }
         try {
           const response = await fetch(`${apiBase}${form.dataset.endpoint}`, {
@@ -1007,13 +1496,19 @@
             body: JSON.stringify(payload)
           });
           const result = await response.json();
-          if (!response.ok) throw new Error(result.detail || 'Request failed');
+          if (!response.ok) throw new Error(result.error?.message || result.detail || 'Request failed');
           if (isCostEstimate) {
             renderCostEstimate(output, result);
           } else if (isSecurityAssessment) {
-            renderSecurityAssessment(output, result.security_audit);
+            renderSecurityAssessment(output, result);
+          } else if (resultType === 'terraform') {
+            renderTerraform(output, result);
+          } else if (resultType === 'architecture') {
+            await renderArchitecture(output, result);
+          } else if (resultType === 'qa') {
+            renderAdvisory(output, result);
           } else {
-            output.textContent = result.terraform_code || result.architecture_diagram || result.response || JSON.stringify(result, null, 2);
+            renderResultState(output, 'The response type is not supported by this interface.', 'error');
           }
         } catch (error) {
           const message = error.message === 'Failed to fetch'
@@ -1024,7 +1519,7 @@
           } else if (isSecurityAssessment) {
             renderSecurityState(output, `Unable to generate the security report: ${message}`, 'error');
           } else {
-            output.textContent = `Unable to complete the request: ${message}`;
+            renderResultState(output, `Unable to complete the request: ${message}`, 'error');
           }
         } finally {
           button.disabled = false;
@@ -1033,6 +1528,24 @@
           output.setAttribute('aria-busy', 'false');
         }
       });
+    });
+
+    const leadForm = document.getElementById('lead-form');
+    leadForm?.addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (!leadForm.reportValidity()) return;
+      const values = new FormData(leadForm);
+      const subject = `UP2CLOUD enquiry · ${values.get('lead_need')}`;
+      const body = [
+        `Name: ${values.get('lead_name')}`,
+        `Email: ${values.get('lead_email')}`,
+        `Company: ${values.get('lead_company') || 'Not supplied'}`,
+        `Primary need: ${values.get('lead_need')}`,
+        '',
+        String(values.get('lead_challenge'))
+      ].join('\n');
+      document.getElementById('lead-status').textContent = 'Opening your email client. Review the message before sending.';
+      window.location.href = `mailto:hello@up2cloud.tech?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     });
   </script>
 </body>
